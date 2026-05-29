@@ -1,0 +1,47 @@
+# @package _global_
+problem:
+  runner: S2Runner
+  manifold: S2
+  dataset: flood
+
+training:
+  hidden_layers: [512, 512, 512, 512, 512]
+  batch_size: 512
+  n_epochs: 20000
+  update_training_set_path_freq: 1
+
+optim:
+  lr: 0.002
+  ema: 0.999
+  scheduler:
+    factor: 0.6
+    patience: 400
+    threshold: 5.0e-05
+    threshold_mode: rel
+    mode: min
+    cooldown: 50
+    min_lr: 1.0e-05
+    eps: 1.0e-08
+    warmup_epochs: 0
+
+model:
+  sigma_schedule_overdamped: linear
+  sigma_min_overdamped: 0.01
+  sigma_max_overdamped: 1.0
+
+  sigma_schedule_underdamped: linear
+  sigma_min_underdamped: 0.1
+  sigma_max_underdamped: 2.0
+
+  T_underdamped: 2.0
+  T_overdamped: 4.0
+
+  N_overdamped: 100
+  N_underdamped: 50
+
+sample:
+  sampler_gamma : 5.0
+  sampler_OLLA_alpha : 50.0
+  sampler_ULLA_alpha : 50.0
+  projection_mode_olla: implicit
+  projection_mode_ulla: implicit

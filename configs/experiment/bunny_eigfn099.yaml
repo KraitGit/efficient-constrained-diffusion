@@ -1,0 +1,48 @@
+# @package _global_
+problem:
+  runner: SDFRunner
+  manifold: SDF
+  dataset: bunny_eigfn099
+
+training:
+  hidden_layers: [256, 256, 256, 256, 256]
+  batch_size: 2048
+  n_epochs: 2000
+  update_training_set_path_freq: 100
+
+optim:
+  lr: 0.002
+  ema: 0.999
+  scheduler:
+    factor: 0.6
+    patience: 50
+    threshold: 5.0e-05
+    threshold_mode: rel
+    mode: min
+    cooldown: 50
+    min_lr: 1.0e-05
+    eps: 1.0e-08
+    warmup_epochs: 0
+
+model:
+  sigma_schedule_overdamped: linear
+  sigma_min_overdamped: 0.07
+  sigma_max_overdamped: 0.07
+
+  sigma_schedule_underdamped: linear
+  sigma_min_underdamped: 0.2
+  sigma_max_underdamped: 0.6
+
+  T_underdamped: 3.0
+  T_overdamped: 5.0
+
+  N_overdamped: 100
+  N_underdamped: 30
+
+sample:
+  sample_num: 20000
+  sampler_gamma: 20.0
+  sampler_OLLA_alpha: 25.0
+  sampler_ULLA_alpha: 25.0
+  projection_mode_olla: implicit
+  projection_mode_ulla: explicit

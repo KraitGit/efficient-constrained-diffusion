@@ -1,0 +1,50 @@
+defaults:
+  - _self_
+  - experiment: volcano
+seed: 1
+gpu: 0
+if_train: True
+if_sample: False
+
+load_model_path: "-"
+save_prefix: "-" 
+
+workdir: null
+
+now: ${now:'%m%d-%H-%M-%S'}
+
+training:
+  hidden_layers: [512, 512, 512, 512, 512]
+  network_mode: MLP
+  activation: SiLU
+  val_freq: -1
+
+sample:
+  sample_num: 2000
+  sampler : ULLA-P
+  drift_mode : zero
+  sampler_OLLA_alpha : 100.0
+  sampler_ULLA_alpha : 100.0
+  sampler_gamma : 200.0
+  projection_mode_olla: explicit
+  projection_mode_ulla: explicit
+
+optim:
+  lr: 0.0005 
+  ema: 0.9999 
+  scheduler:
+    factor: 0.5
+    patience: 200
+    threshold: 1.0e-04
+    threshold_mode: rel
+    mode: min
+    cooldown: 0
+    min_lr: 5.0e-06
+    eps: 1.0e-08
+    warmup_epochs: 0
+
+hydra:
+  run:
+    dir: ./results/hydra
+  sweep:
+    dir: ./results/hydra

@@ -1,0 +1,61 @@
+# @package _global_
+problem:
+  runner: RobotRunner
+  manifold: Robot
+  dataset: robot_arm
+  safety_margin: 0.01
+  target_ee_z: 0.205
+  obstacle_radius: 0.1
+  time_steps: 10
+  obstacles_info:
+  - position: [0.4, -0.3, 0.205]
+  - position: [0.4, 0.3, 0.205]
+  prior_mode: 'generate'
+  if_plot_fwd: True
+
+training:
+  hidden_layers: [1024, 1024, 1024, 1024, 1024]
+  network_mode: MLP
+  batch_size: 160
+  n_epochs: 10000
+  update_training_set_path_freq: 50
+  chunk_batch_size: 160
+
+optim:
+  lr: 0.003
+  ema: 0.999
+  scheduler:
+    factor: 0.6
+    patience: 500
+    threshold: 5.0e-05
+    threshold_mode: rel
+    mode: min
+    cooldown: 50
+    min_lr: 1.0e-05
+    eps: 1.0e-08
+    warmup_epochs: 0
+
+model:
+  sigma_schedule_overdamped: linear
+  sigma_min_overdamped: 0.1
+  sigma_max_overdamped: 3.0
+
+  sigma_schedule_underdamped: linear
+  sigma_min_underdamped: 0.1
+  sigma_max_underdamped: 2.0
+
+  T_underdamped: 0.2
+  T_overdamped: 0.1
+
+  N: 100
+
+sample:
+  sample_num: 320
+  sampler : ULLA
+  sampler_gamma : 1.0
+  sampler_OLLA_alpha : 50.0
+  sampler_ULLA_alpha : 200.0
+  epsilon : 0.001
+  projection_mode_olla: explicit
+  projection_mode_ulla: explicit
+  terminal_projection: false
